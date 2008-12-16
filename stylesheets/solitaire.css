@@ -1,0 +1,10 @@
+.x-solitaire-suit-stack {
+  height: 100px;
+  width: 72px;
+  border: 1px solid red;
+}
+
+.x-solitaire-card {
+  height: 100px;
+  width: 72px;
+}
