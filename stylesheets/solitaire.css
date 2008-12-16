@@ -1,10 +1,29 @@
+.x-solitaire-card {
+  width: 72px;
+}
+
+.x-solitaire-card-under {
+  height: 12px;
+}
+
+.x-solitaire-card-top {
+  height: 100px;
+}
+
 .x-solitaire-suit-stack {
   height: 100px;
   width: 72px;
   border: 1px solid red;
 }
 
-.x-solitaire-card {
-  height: 100px;
-  width: 72px;
+.x-solitaire-suit-stack .x-solitaire-card-under {
+  height: 0;
+}
+
+.x-solitaire-stack {
+  height: 300px;
+}
+
+.x-solitaire-deck .x-solitaire-card-under {
+  height: 0;
 }

@@ -11,8 +11,27 @@ Ext.ux.Solitaire.Pack = function() {
   //add the cards
   for (var i=0; i < suits.length; i++) {
     for (var j=0; j < numbers.length; j++) {
-      cards.push(new Ext.ux.Solitaire.Card(suits[i], numbers[j]));
+      cards.push(new Ext.ux.Solitaire.Card({suit: suits[i], number: numbers[j], pack: this}));
     };
+  };
+  
+  /**
+   * Moves a card to a new container.  Adds/removes card from containers appropriately
+   * and calls doLayout() on each altered container
+   */
+  this.moveCard = function(card, newContainer) {
+    var oldContainer;
+    if (card.location) {
+      oldContainer = card.location;
+      oldContainer.remove(card);
+      oldContainer.doLayout();
+    };
+    
+    newContainer.add(card);
+    card.location = newContainer;
+    newContainer.doLayout();
+    
+    return true;
   };
   
   /**

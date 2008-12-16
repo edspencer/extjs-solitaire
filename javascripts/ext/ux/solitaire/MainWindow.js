@@ -8,19 +8,19 @@ Ext.ux.Solitaire.MainWindow = function(config) {
   
   //add items for the top panel (deck, dealt cards, a gap and then the suit stacks)
   var tpItems = [
+    {
+      border: false
+    },
     config.deck,
     {
-      html: '<p>empty</p>'
-    },
-    {
-      html: '<p>empty</p>'
+      border: false
     }
   ];
   
   for (var i=0; i < config.suitStacks.length; i++) {
     tpItems.push(config.suitStacks[i]);
   };
-    
+  
   this.topPanel = new Ext.Panel({
     layout: 'column',
     region: 'north',

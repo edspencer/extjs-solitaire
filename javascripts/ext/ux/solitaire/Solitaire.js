@@ -2,12 +2,15 @@ Ext.ns('Ext.ux.Solitaire');
 
 Ext.ux.Solitaire.Game = function() {
   this.pack = new Ext.ux.Solitaire.Pack();
-  this.deck = new Ext.ux.Solitaire.Deck();
+  this.initialiseSuitStacks();
+  this.initialiseStacks();
+  
+  this.deck = new Ext.ux.Solitaire.Deck({pack: this.pack});
   
   this.win = new Ext.ux.Solitaire.MainWindow({
     deck:       this.deck,
-    suitStacks: this.initialiseSuitStacks(),
-    stacks:     this.initialiseStacks()
+    suitStacks: this.suitStacks,
+    stacks:     this.stacks
   });
 };
 
@@ -19,6 +22,13 @@ Ext.ux.Solitaire.Game.prototype = {
    * Array holding the stacks used in this game
    */
   stacks: [],
+  
+  /**
+   * @property suitStacks
+   * @type Array
+   * Array holding the suit stacks used in this game
+   */
+  suitStacks: [],
   
   /**
    * @property inProgress
@@ -41,16 +51,25 @@ Ext.ux.Solitaire.Game.prototype = {
     this.stacks = this.stacks || [];
     
     for (var i=0; i < this.numberOfStacks; i++) {
-      var items = [];
+      var stack = new Ext.ux.Solitaire.Stack({
+        listeners: {
+          'carddropped': {
+            fn: function(stack, card) {
+              this.pack.moveCard(card, stack);
+            },
+            scope: this
+          }
+        }
+      });
       
       //add 1 card to first stack, 2 to second etc.  Top card on each stack is revealed
       for (var j=0; j <= i; j++) {
         var card = this.pack.getTopCard();
         card.revealed = (i == j);
-        items.push(card);
+        card.moveTo(stack);
       };
       
-      this.stacks.push(new Ext.ux.Solitaire.Stack(items));
+      this.stacks.push(stack);
     };
     
     return this.stacks;
@@ -58,9 +77,18 @@ Ext.ux.Solitaire.Game.prototype = {
   
   initialiseSuitStacks: function() {
     var numSuits = Ext.ux.Solitaire.Card.prototype.suits.length;  
-    this.suitStacks = [];
+    this.suitStacks = this.suitStacks || [];
     for (var i=0; i < numSuits; i++) {
-      this.suitStacks.push(new Ext.ux.Solitaire.SuitStack());
+      this.suitStacks.push(new Ext.ux.Solitaire.SuitStack({
+        listeners: {
+          'carddropped': {
+            fn: function(stack, card) {
+              this.pack.moveCard(card, stack);
+            },
+            scope: this
+          }
+        }
+      }));
     };
     
     return this.suitStacks;
