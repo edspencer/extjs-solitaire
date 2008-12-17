@@ -47,6 +47,7 @@ Ext.ux.Solitaire.MainWindow = function(config) {
     height:    600,
     width:     900,
     layout:    'border',
+    cls:       'x-solitaire-window',
     constrain: true,
     
     tbar: [

@@ -1,3 +1,7 @@
+.x-solitaire-window .x-window-body .x-panel-body {
+  background-color: #080;
+}
+
 .x-solitaire-card {
   width: 72px;
 }

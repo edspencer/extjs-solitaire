@@ -131,6 +131,14 @@ Ext.extend(Ext.ux.Solitaire.Card, Ext.Component, {
         return {
           card: card
         };
+      },
+      
+      createFrame: function() {
+        // console.log('create proxy');
+        // console.log(this);
+        // console.log(this.proxy.el);
+        // 
+        // this.setDelta(50, 50);
       }
     });
   }

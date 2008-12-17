@@ -1,17 +1,7 @@
 Ext.ns('Ext.ux.Solitaire');
 
 Ext.ux.Solitaire.Game = function() {
-  this.pack = new Ext.ux.Solitaire.Pack();
-  this.initialiseSuitStacks();
-  this.initialiseStacks();
-  
-  this.deck = new Ext.ux.Solitaire.Deck({pack: this.pack});
-  
-  this.win = new Ext.ux.Solitaire.MainWindow({
-    deck:       this.deck,
-    suitStacks: this.suitStacks,
-    stacks:     this.stacks
-  });
+  this.initialise();
 };
 
 Ext.ux.Solitaire.Game.prototype = {
@@ -43,6 +33,45 @@ Ext.ux.Solitaire.Game.prototype = {
    * The number of stacks to start this game with (defaults to 7)
    */
   numberOfStacks: 7,
+  
+  /**
+   * Initialises the game, sets up pack, deck, stacks and window
+   */
+  initialise: function() {
+    this.pack = new Ext.ux.Solitaire.Pack();
+    this.initialiseSuitStacks();
+    this.initialiseStacks();
+    
+    this.deck = new Ext.ux.Solitaire.Deck({pack: this.pack});
+    
+    if (this.win) {this.win.close(); this.win.destroy();}
+
+    this.win = new Ext.ux.Solitaire.MainWindow({
+      deck:       this.deck,
+      suitStacks: this.suitStacks,
+      stacks:     this.stacks,
+      
+      listeners: {
+        'newgame': {
+          scope: this,
+          fn: function() {
+            if (this.inProgress) {
+              alert('in progress');
+            } else {this.initialise(); this.launch();}
+          }
+        }
+      }
+    });
+    
+    this.pack.on('movecard', this.startGame, this);
+  },
+  
+  /**
+   * Updates internal representation of game to indicate that a game is in progress
+   */
+  startGame: function() {
+    this.inProgress = true;
+  },
   
   /**
    * Creates stacks and populates them with cards from the Pack
