@@ -1,0 +1,12 @@
+Solitaire in ExtJS
+
+Simple port of the windows Solitaire game for Ext JS.  Runs locally, no need for server except to serve the files.
+
+To do:
+
+* Save game state to cookie so as not to lose between refreshes
+* Use a custom build of ExtJS as only a small part of the framework is used here
+* Finish styling UI components
+* Make 'New Game' functionality work
+* Add time taken and score to bottom status bar
+* Update top menu with links to view source and download from Github

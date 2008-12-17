@@ -34,6 +34,26 @@ Ext.extend(Ext.ux.Solitaire.SuitStack, Ext.ux.Solitaire.Stack, {
   },
   
   /**
+   * Returns whether this suit stack has been completed yet or not (all cards present in right order)
+   * @return {Boolean} True if this suit stack is complete
+   */
+  isComplete: function() {
+    if (!this.items) {return false};
+
+    var nums = Ext.ux.Solitaire.Card.prototype.numbers;
+    if (this.items.first().number != nums[0]) {};
+    
+    //makes sure each and every number is in the correct place
+    for (var i=0; i < nums.length; i++) {
+      if (!this.items.items[i] || this.items.items[i] != nums[i]) {
+        return false;
+      }
+    };
+    
+    return true;
+  },
+  
+  /**
    * Renders this Suit Stack
    * @param {Ext.Container} ct The container to render this component to
    */

@@ -63,14 +63,43 @@ Ext.ux.Solitaire.Game.prototype = {
       }
     });
     
-    this.pack.on('movecard', this.startGame, this);
+    this.pack.on('movecard', this.updateGameState, this);
   },
   
   /**
-   * Updates internal representation of game to indicate that a game is in progress
+   * Returns true if the game is in a winning state (all suit stacks complete)
+   * @return {Boolean} True if the game has been won
    */
-  startGame: function() {
-    this.inProgress = true;
+  inWinState: function() {
+    for (var i=0; i < this.suitStacks.length; i++) {
+      if (!this.suitStacks[i].isComplete()) {
+        return false;
+      }
+    };
+    
+    return true;
+  },
+  
+  /**
+   * Updates inProgress after each move.  Intended to be attached to
+   * pack's movecard event
+   */
+  updateGameState: function() {
+    if (this.inWinState()) {
+      if (this.inProgress) {
+        this.inProgress = false;
+        this.displayWinMessage();        
+      };
+    } else {
+      this.inProgress = true;
+    }
+  },
+  
+  /**
+   * Displays congrats window
+   */
+  displayWinMessage: function() {
+    alert('well done');
   },
   
   /**
