@@ -44,3 +44,7 @@
 .solitaire-info p {
   margin-bottom: 10px;
 }
+
+.x-solitaire-card-hidden {
+  background-position: -72px 100px;
+}

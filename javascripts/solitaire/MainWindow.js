@@ -69,6 +69,30 @@ Solitaire.MainWindow = function(config) {
       },
       '-',
       {
+        text: 'Options',
+        menu: [
+          {
+            text: 'Card background',
+            menu: {
+              defaults: {
+                checked: false,
+                group:   'background',
+                scope:   this,
+                checkHandler: function(item, checked) {
+                  if (checked) {
+                    this.fireEvent('changeCardBackground', item.text);
+                  };
+                }
+              },
+              items: [
+                {text: 'Crown'}, {text: 'Cross', checked: true}, {text: 'Circle'}, {text: 'Woman'}, {text: 'Roses'}, {text: 'Checkered'}, {text: 'Squares'}
+              ]
+            }
+          }
+        ]
+      },
+      '-',
+      {
         text: 'About',
         menu: {
           items: [
@@ -120,10 +144,18 @@ Solitaire.MainWindow = function(config) {
      * Fires whenever the new game button is clicked
      * @param {Solitaire.MainWindow} this The window firing the event
      */
-    'newgame'
+    'newgame',
+    
+    /**
+     * @event changeCardBackground
+     * Fires when the user selects a different card background
+     * @param {String} backgroundName The string name of the background to use
+     */
+    'changeCardBackground'
   );
     
   this.on('render', function() { this.el.alignTo(Ext.getBody(), 'c'); }, this);
+  this.on('changeCardBackground', this.setCardBackground, this);
   
   //update the game time and score
   Ext.TaskMgr.start({
@@ -171,5 +203,25 @@ Ext.extend(Solitaire.MainWindow, Ext.Window, {
     };
     
     this.scoreHelpWindow.show();
+  },
+  
+  /**
+   * Changes the background of all cards to the specified background
+   * @param {String} backgroundName The name of the background to change to
+   */
+  setCardBackground: function(backgroundName) {
+    console.log('test');
+    var offset = 0; //crown - default
+    var width  = Solitaire.Card.prototype.cardWidth;
+    switch(backgroundName) {
+      case 'Cross'     : offset = 1; break;
+      case 'Circle'    : offset = 2; break;
+      case 'Woman'     : offset = 3; break;
+      case 'Roses'     : offset = 4; break;
+      case 'Checkered' : offset = 5; break;
+      case 'Squares'   : offset = 6; break;
+    };
+    
+    Ext.util.CSS.updateRule('.x-solitaire-card-hidden', 'background-position', '-' + width * offset + 'px 100px');
   }
 });

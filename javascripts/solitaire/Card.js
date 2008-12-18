@@ -113,7 +113,7 @@ Ext.extend(Solitaire.Card, Ext.Component, {
           
       return String.format("background-image: url({0}); background-position: {1}px {2}px", this.imageUrl, numberOffset, suitOffset);
     } else {
-      return String.format("background: transparent url({0}) 72px 100px;", this.imageUrl);
+      return String.format("background-image: url({0});", this.imageUrl);
     };
   },
   
