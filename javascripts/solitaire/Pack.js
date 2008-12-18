@@ -1,24 +1,24 @@
 /**
- * @class Ext.ux.Solitaire.Pack
+ * @class Solitaire.Pack
  * @extends Ext.util.Observable
  * Represents a complete pack of cards
  */
-Ext.ux.Solitaire.Pack = function(config) {
+Solitaire.Pack = function(config) {
   var config = config || {};
   
   var cards = [];
   
-  var suits   = Ext.ux.Solitaire.Card.prototype.suits;
-  var numbers = Ext.ux.Solitaire.Card.prototype.numbers;
+  var suits   = Solitaire.Card.prototype.suits;
+  var numbers = Solitaire.Card.prototype.numbers;
   
-  Ext.ux.Solitaire.Pack.superclass.constructor.call(this, config);
+  Solitaire.Pack.superclass.constructor.call(this, config);
   
   this.addEvents(
     /**
      * @event beforemovecard
      * Fires before a card is moved, return false from any listener to cancel
-     * @param {Ext.ux.Solitaire.Pack} this The pack of cards
-      * @param {Ext.ux.Solitaire.Card} card The card which was just moved
+     * @param {Solitaire.Pack} this The pack of cards
+      * @param {Solitaire.Card} card The card which was just moved
       * @param {Ext.Container} newContainer The container the card will be moved to
       * @param {Ext.Container} currentContainer The container the card is currently inside
      */
@@ -27,38 +27,46 @@ Ext.ux.Solitaire.Pack = function(config) {
     /**
      * @event movecard
      * Fires after a card has been moved from one container to another
-     * @param {Ext.ux.Solitaire.Pack} this The pack of cards
-     * @param {Ext.ux.Solitaire.Card} card The card which was just moved
+     * @param {Solitaire.Pack} this The pack of cards
+     * @param {Solitaire.Card} card The card which was just moved
      * @param {Ext.Container} newContainer The container the card is now inside
      * @param {Ext.Container} oldContainer The container the card was previously inside
      */
     'movecard',
     
     /**
-     * @event cardDblclick
+     * @event carddblclick
      * Fires when a card in this pack is double clicked
-     * @param {Ext.ux.Solitaire.Card} card The card which was double clicked
-     * @param {Ext.ux.Solitaire.Pack} this This pack
+     * @param {Solitaire.Card} card The card which was double clicked
+     * @param {Solitaire.Pack} this This pack
      */
-    'cardDblclick'
+    'carddblclick'
   );
   
   //add the cards
   for (var i=0; i < suits.length; i++) {
     for (var j=0; j < numbers.length; j++) {
-      var card = new Ext.ux.Solitaire.Card({
+      var card = new Solitaire.Card({
         suit:   suits[i],
         number: numbers[j],
         pack:   this,
         listeners: {
           'dblclick': {
             scope: this,
-            fn:    function(card) {this.fireEvent('cardDblclick', card, this);}
+            fn:    function(card) {this.fireEvent('carddblclick', card, this);}
           }
         }
       });
       cards.push(card);
     };
+  };
+  
+  this.getRevealed = function() {
+    
+  };
+  
+  this.getUnrevealed = function() {
+    
   };
   
   /**
@@ -83,7 +91,7 @@ Ext.ux.Solitaire.Pack = function(config) {
         };
         
         for (var i=0; i < cardsToMove.length; i++) {
-          oldContainer.remove(cardsToMove[i])
+          oldContainer.remove(cardsToMove[i]);
         };
         
         oldContainer.doLayout();
@@ -97,6 +105,13 @@ Ext.ux.Solitaire.Pack = function(config) {
       };
       
       newContainer.doLayout();
+      
+      //FIXME: this isn't great, we shouldn't have to do this really
+      //reattach double click listeners to all moved cards
+      var pack = this;
+      for (var i=0; i < cardsToMove.length; i++) {
+        cardsToMove[i].on('dblclick', function() { pack.fireEvent('carddblclick', this, pack); });
+      };
 
       return true;
     }
@@ -104,7 +119,7 @@ Ext.ux.Solitaire.Pack = function(config) {
   
   /**
    * Returns the card currently on the top of the pack
-   * @return {Ext.ux.Solitaire.Card} The card from the top of the pack
+   * @return {Solitaire.Card} The card from the top of the pack
    */
   this.getTopCard = function() {
     return cards.shift();
@@ -135,4 +150,4 @@ Ext.ux.Solitaire.Pack = function(config) {
   this.shuffle();
 };
 
-Ext.extend(Ext.ux.Solitaire.Pack, Ext.util.Observable);
+Ext.extend(Solitaire.Pack, Ext.util.Observable);

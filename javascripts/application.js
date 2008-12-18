@@ -1,9 +1,6 @@
-Ext.ns('SolitaireApp');
+// Ext.dd.DragDropMgr.mode = Ext.dd.DragDropMgr.INTERSECT;
 
 Ext.onReady(function() {
-  var sol = new Ext.ux.Solitaire.Game();
+  var sol = new Solitaire.Game();
   sol.launch();
-  
-  //TODO: hmm doesn't work currently - just gives errors
-  // Ext.dd.DragDropMgr.mode = Ext.dd.DragDropMgr.INTERSECT;
 });

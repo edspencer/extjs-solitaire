@@ -1,24 +1,24 @@
 /**
- * @class Ext.ux.Solitaire.Card
+ * @class Solitaire.Card
  * Representation of a single card
  * @cfg {String} suit The suit of the card (one of Diamonds, Hearts, Clubs or Spades)
  * @cfg {String} number The number of name of the card
  * @cfg {Boolean} revealed True if this card has already been revealed to the user (defaults to false)
  */
-Ext.ux.Solitaire.Card = function(config) {
+Solitaire.Card = function(config) {
   var config = config || {};
   Ext.apply(this, {
     revealed: false,
     location: null
   }, config);
 
-  Ext.ux.Solitaire.Card.superclass.constructor.call(this, {});
+  Solitaire.Card.superclass.constructor.call(this, {});
   
   this.addEvents(
     /**
      * @event dblclick
      * Fires when the card is double clicked
-     * @param {Ext.ux.Solitaire.Card} this The card which was clicked
+     * @param {Solitaire.Card} this The card which was clicked
      */
     'dblclick'
   );
@@ -26,7 +26,7 @@ Ext.ux.Solitaire.Card = function(config) {
   this.on('render', this.initializeDragSource, this);
 };
 
-Ext.extend(Ext.ux.Solitaire.Card, Ext.Component, {
+Ext.extend(Solitaire.Card, Ext.Component, {
   
   /**
    * @property cardHeight
@@ -100,12 +100,6 @@ Ext.extend(Ext.ux.Solitaire.Card, Ext.Component, {
       cls:   'x-solitaire-card ' + cls,
       style: this.imageStyle(this)
     });
-    
-    this.el.on('dblclick', function() {
-      console.log('dbl!');
-      this.fireEvent('dblclick', this);
-    }, this);
-    
   },
   
   /**
@@ -135,6 +129,8 @@ Ext.extend(Ext.ux.Solitaire.Card, Ext.Component, {
    * Sets this card up to be draggable
    */
   initializeDragSource: function() {
+    this.el.on('dblclick', function() { this.fireEvent('dblclick', this); }, this);
+    
     //only allow a card to be dragged if it has been revealed
     if (!this.revealed) { return false; }
         
@@ -146,18 +142,10 @@ Ext.extend(Ext.ux.Solitaire.Card, Ext.Component, {
         return {
           card: card
         };
-      },
-      
-      createFrame: function() {
-        // console.log('create proxy');
-        // console.log(this);
-        // console.log(this.proxy.el);
-        // 
-        // this.setDelta(50, 50);
       }
     });
   }
   
 });
 
-Ext.reg('solitaire-card', Ext.ux.Solitaire.Card);
+Ext.reg('solitaire-card', Solitaire.Card);

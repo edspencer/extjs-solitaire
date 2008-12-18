@@ -1,9 +1,9 @@
 /**
- * @class Ext.ux.Solitaire.Stack
+ * @class Solitaire.Stack
  * @param {Array} An ordered array of cards to initialise this stack with
  * Represents an ordered stack of cards
  */
-Ext.ux.Solitaire.Stack = function(config) {
+Solitaire.Stack = function(config) {
   var config = config || {};
   
   this.addCard = function(card) {
@@ -14,14 +14,14 @@ Ext.ux.Solitaire.Stack = function(config) {
     return cards.pop();
   };
     
-  Ext.ux.Solitaire.Stack.superclass.constructor.call(this, config);
+  Solitaire.Stack.superclass.constructor.call(this, config);
     
   this.addEvents(
     /**
      * @event carddropped
      * Fires when a card is dropped on this stack
-     * @param {Ext.ux.Solitaire.Stack} this The stack the card was dropped on
-     * @param {Ext.ux.Solitaire.Card} card The card that was dropped
+     * @param {Solitaire.Stack} this The stack the card was dropped on
+     * @param {Solitaire.Card} card The card that was dropped
      */
     'carddropped'
   );
@@ -30,14 +30,14 @@ Ext.ux.Solitaire.Stack = function(config) {
   this.on('afterlayout', this.applyClasses,         this);
 };
 
-Ext.extend(Ext.ux.Solitaire.Stack, Ext.Container, {
+Ext.extend(Solitaire.Stack, Ext.Container, {
   /**
    * Returns true if the request drop is allowed
-   * @param {Ext.ux.Solitaire.Card} cardToDrop The card the user wishes to drop onto this stack
+   * @param {Solitaire.Card} cardToDrop The card the user wishes to drop onto this stack
    * @return {Boolean} True if this drop is allowed
    */
   dropAllowed: function(cardToDrop) {
-    var nums = Ext.ux.Solitaire.Card.prototype.numbers;
+    var nums = Solitaire.Card.prototype.numbers;
     
     var topCard = this.getTopCard();
     
@@ -54,7 +54,7 @@ Ext.extend(Ext.ux.Solitaire.Stack, Ext.Container, {
   
   /**
    * Returns the top card on this stack, or null if the stack is empty (does not remove the card from the stack)
-   * @return {Ext.ux.Solitaire.Card/null} The top card
+   * @return {Solitaire.Card/null} The top card
    */
   getTopCard: function() {
     if (!this.items || this.items.length == 0) {
@@ -120,4 +120,4 @@ Ext.extend(Ext.ux.Solitaire.Stack, Ext.Container, {
   }
 });
 
-Ext.reg('solitaire-stack', Ext.ux.Solitaire.Stack);
+Ext.reg('solitaire-stack', Solitaire.Stack);

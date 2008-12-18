@@ -5,18 +5,23 @@ Simple port of the windows Solitaire game for Ext JS.  Runs locally, no need for
 To do:
 
 * Save game state to cookie so as not to lose between refreshes
-* Use a custom build of ExtJS as only a small part of the framework is used here
 * Finish styling UI components
-* Make 'New Game' functionality work
-* Add time taken and score to bottom status bar
-* Update top menu with links to view source and download from Github
+* Make 'New Game' functionality work properly (as in not refresh the whole window!)
 * Make a 'cool' animation for the end
 * Update DragDropMgr to use intersect instead of point
 * Add a 'hint' option which flashes a card
-* Change deck cycling direction
+
+Bugs:
+
+* There seems to be an event firing leak when double clicking cards.  Before they are moved they fire the event several times.
 
 Changelog:
 
 18/12/2008:
 * Allowed double-click on a top card to stack to automatically put it onto appropriate suitstack if the move is permitted
 * When moving a revealed card from a stack, any cards on top of it will also move
+* Using a custom build of ExtJS as only a small part of the framework is used here
+* Changed deck cycling direction (bottom card moved to top instead of top to bottom)
+* Updated top menu with links to view source and download from Github
+* Reorganised files, took all classes out of the Ext.ux namespace
+* Added time taken and score to bottom status bar

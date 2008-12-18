@@ -31,3 +31,16 @@
 .x-solitaire-deck .x-solitaire-card-under {
   height: 0;
 }
+
+.solitaire-info .x-panel-body {
+  padding: 5px;
+}
+
+.solitaire-info h1 {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.solitaire-info p {
+  margin-bottom: 10px;
+}

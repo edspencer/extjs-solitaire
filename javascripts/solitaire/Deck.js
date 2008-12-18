@@ -1,24 +1,32 @@
 /**
- * @class Ext.ux.Solitaire.Deck
+ * @class Solitaire.Deck
  * @param {Array} cards An array of cards to initialise the deck with
  * Represents the deck of all non-dealt cards
  */
-Ext.ux.Solitaire.Deck = function(config) {
+Solitaire.Deck = function(config) {
   var config = config || {};
   
-  Ext.ux.Solitaire.Deck.superclass.constructor.call(this, config);
+  Solitaire.Deck.superclass.constructor.call(this, config);
   
-  if (config.pack) {
-    this.pack = config.pack;
-    while (c = this.pack.getTopCard()) {
-      this.pack.moveCard(c, this);
-    }
-  };
+  this.claimUndealtCards(config.pack);
   
   this.on('afterlayout', this.applyClasses, this);
 };
 
-Ext.extend(Ext.ux.Solitaire.Deck, Ext.Container, {
+Ext.extend(Solitaire.Deck, Ext.Container, {
+  
+  /**
+   * Removes all remaining cards from the pack
+   */
+  claimUndealtCards: function(pack) {
+    this.pack = pack || this.pack;
+    
+    if (this.pack) {
+      while (c = this.pack.getTopCard()) {
+        this.pack.moveCard(c, this);
+      }
+    };
+  },
   
   /**
    * Renders the Deck
@@ -54,13 +62,13 @@ Ext.extend(Ext.ux.Solitaire.Deck, Ext.Container, {
   },
   
   /**
-   * Cycles the cards, putting the current top item on the bottom
+   * Cycles the cards, putting the current bottom item on the top
    */
   cycleCards: function() {
-    var top = this.items.last();
-    if (top) {
-      this.remove(top);
-      this.items.insert(0, top);
+    var bottom = this.items.first();
+    if (bottom) {
+      this.remove(bottom);
+      this.add(bottom); //adds it to the top
       this.doLayout();
     };
   }

@@ -1,21 +1,21 @@
 /**
- * Ext.ux.Solitaire.SuitStack
- * @extends Ext.ux.Solitaire.Stack
+ * Solitaire.SuitStack
+ * @extends Solitaire.Stack
  * Specialised implementation of Stack which only allows the same suit to be dropped
  */
-Ext.ux.Solitaire.SuitStack = function(config) {
+Solitaire.SuitStack = function(config) {
   var config = config || {};
   
-  Ext.ux.Solitaire.SuitStack.superclass.constructor.call(this, config);
+  Solitaire.SuitStack.superclass.constructor.call(this, config);
 };
-Ext.extend(Ext.ux.Solitaire.SuitStack, Ext.ux.Solitaire.Stack, {
+Ext.extend(Solitaire.SuitStack, Solitaire.Stack, {
   /**
    * Returns true if the request drop is allowed
-   * @param {Ext.ux.Solitaire.Card} cardToDrop The card the user wishes to drop onto this stack
+   * @param {Solitaire.Card} cardToDrop The card the user wishes to drop onto this stack
    * @return {Boolean} True if this drop is allowed
    */
   dropAllowed: function(cardToDrop) {
-    var nums = Ext.ux.Solitaire.Card.prototype.numbers;
+    var nums = Solitaire.Card.prototype.numbers;
     var topCard = this.getTopCard();
     
     if (!topCard) {
@@ -38,14 +38,13 @@ Ext.extend(Ext.ux.Solitaire.SuitStack, Ext.ux.Solitaire.Stack, {
    * @return {Boolean} True if this suit stack is complete
    */
   isComplete: function() {
-    if (!this.items) {return false};
+    if (!this.items) { return false; }
 
-    var nums = Ext.ux.Solitaire.Card.prototype.numbers;
-    if (this.items.first().number != nums[0]) {};
+    var nums = Solitaire.Card.prototype.numbers;
     
     //makes sure each and every number is in the correct place
     for (var i=0; i < nums.length; i++) {
-      if (!this.items.items[i] || this.items.items[i] != nums[i]) {
+      if (!this.items.items[i] || this.items.items[i].number != nums[i]) {
         return false;
       }
     };
