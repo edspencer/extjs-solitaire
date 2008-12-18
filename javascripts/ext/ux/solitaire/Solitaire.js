@@ -63,7 +63,8 @@ Ext.ux.Solitaire.Game.prototype = {
       }
     });
     
-    this.pack.on('movecard', this.updateGameState, this);
+    this.pack.on('movecard',     this.updateGameState, this);
+    this.pack.on('cardDblclick', this.autoMoveCard,    this);
   },
   
   /**
@@ -93,6 +94,24 @@ Ext.ux.Solitaire.Game.prototype = {
     } else {
       this.inProgress = true;
     }
+  },
+  
+  /**
+   * Attempts to automaticaly move the given card to the appropriate suit stack
+   * @param {Ext.ux.Solitaire.Card} card The card to automatically move
+   * @return {Boolean} True if a valid move was found and attempted
+   */
+  autoMoveCard: function(card) {
+    console.log('attempting auto move');
+    for (var i=0; i < this.suitStacks.length; i++) {
+      var s = this.suitStacks[i];
+      if (s.dropAllowed(card)) {
+        card.moveTo(s);
+        return true
+      };
+    };
+    
+    return false;
   },
   
   /**

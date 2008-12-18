@@ -119,3 +119,5 @@ Ext.extend(Ext.ux.Solitaire.Stack, Ext.Container, {
     });
   }
 });
+
+Ext.reg('solitaire-stack', Ext.ux.Solitaire.Stack);

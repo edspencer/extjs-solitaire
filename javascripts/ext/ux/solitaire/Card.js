@@ -14,6 +14,15 @@ Ext.ux.Solitaire.Card = function(config) {
 
   Ext.ux.Solitaire.Card.superclass.constructor.call(this, {});
   
+  this.addEvents(
+    /**
+     * @event dblclick
+     * Fires when the card is double clicked
+     * @param {Ext.ux.Solitaire.Card} this The card which was clicked
+     */
+    'dblclick'
+  );
+  
   this.on('render', this.initializeDragSource, this);
 };
 
@@ -80,7 +89,7 @@ Ext.extend(Ext.ux.Solitaire.Card, Ext.Component, {
     throw new Error("Could not determine the colour of the " + this.suit + " suit.");
   },
   
-    /**
+  /**
    * Renders this card
    * @param {Ext.Container} ct The container to render this Card to
    */
@@ -91,6 +100,12 @@ Ext.extend(Ext.ux.Solitaire.Card, Ext.Component, {
       cls:   'x-solitaire-card ' + cls,
       style: this.imageStyle(this)
     });
+    
+    this.el.on('dblclick', function() {
+      console.log('dbl!');
+      this.fireEvent('dblclick', this);
+    }, this);
+    
   },
   
   /**
@@ -144,3 +159,5 @@ Ext.extend(Ext.ux.Solitaire.Card, Ext.Component, {
   }
   
 });
+
+Ext.reg('solitaire-card', Ext.ux.Solitaire.Card);
