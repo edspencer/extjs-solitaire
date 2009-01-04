@@ -64,6 +64,26 @@ Ext.extend(Solitaire.Stack, Ext.Container, {
   },
   
   /**
+   * Returns an array of cards above (higher in the stack) this one.  Also contains the passed card
+   * @param {Solitaire.Card} card The bottom card to return
+   * @return {Array} An array of all cards above the requested card.  Also contains the card itself
+   */
+  getCardsAbove: function(card) {
+    var above = [];
+    var items = this.items.items;
+    var found = false;
+    
+    for (var i=0; i < items.length; i++) {
+      var c = items[i];
+      if (c == card) { found = true; }
+      
+      if (found) { above.push(c); }
+    };
+    
+    return above;
+  },
+  
+  /**
    * Iterates over the cards in this stack, adding CSS classes accordingly.
    * Intended to be attached to the afterlayout event
    */

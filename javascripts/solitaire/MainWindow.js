@@ -6,15 +6,14 @@
 Solitaire.MainWindow = function(config) {
   var config = config || {};
   
+  this.deal = new Solitaire.Deal({
+    colspan: 2
+  });
+  
   //add items for the top panel (deck, dealt cards, a gap and then the suit stacks)
   var tpItems = [
-    {
-      border: false
-    },
-    config.deck,
-    {
-      border: false
-    }
+    this.deal,
+    config.deck
   ];
   
   for (var i=0; i < config.suitStacks.length; i++) {
@@ -58,6 +57,7 @@ Solitaire.MainWindow = function(config) {
     layout:    'border',
     cls:       'x-solitaire-window',
     constrain: true,
+    closable:  false,
     
     tbar: [
       {
@@ -210,7 +210,6 @@ Ext.extend(Solitaire.MainWindow, Ext.Window, {
    * @param {String} backgroundName The name of the background to change to
    */
   setCardBackground: function(backgroundName) {
-    console.log('test');
     var offset = 0; //crown - default
     var width  = Solitaire.Card.prototype.cardWidth;
     switch(backgroundName) {

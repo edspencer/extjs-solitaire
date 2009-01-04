@@ -8,11 +8,11 @@ To do:
 * Finish styling UI components
 * Make 'New Game' functionality work properly (as in not refresh the whole window!)
 * Make a 'cool' animation for the end
-* Update DragDropMgr to use intersect instead of point
 * Add a 'hint' option which flashes a card
 
 Bugs:
 
+* onInitDrag in Card.js often fires many times, which causes the StatusProxy to flicker as it is recreated - find out why... (could be to do with how the cachedTarget is set in that file)
 * There seems to be an event firing leak when double clicking cards.  Before they are moved they fire the event several times.
 
 Changelog:
@@ -25,3 +25,7 @@ Changelog:
 * Updated top menu with links to view source and download from Github
 * Reorganised files, took all classes out of the Ext.ux namespace
 * Added time taken and score to bottom status bar
+
+04/01/2008:
+* Updated DragDropMgr to use intersect instead of point
+* When multiple cards are dragged they are now all shown in the drag proxy

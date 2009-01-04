@@ -125,6 +125,32 @@ Ext.extend(Solitaire.Card, Ext.Component, {
     this.el.applyStyles(this.imageStyle());
   },
   
+  getBestMatch: function(dds) {
+    var winner = null;
+
+    var len = dds.length;
+
+    if (len == 1) {
+        winner = dds[0];
+    } else {
+      for (var i=0; i<len; ++i) {
+        var dd = dds[i];
+                    
+        if (false && dd.cursorIsOver) {
+          winner = dd;
+          break;
+        
+        } else {
+          if (!winner || winner.overlap.getArea() < dd.overlap.getArea()) {
+            winner = dd;
+          }
+        }
+      }
+    }
+
+    return winner;
+  },
+  
   /**
    * Sets this card up to be draggable
    */
@@ -142,6 +168,87 @@ Ext.extend(Solitaire.Card, Ext.Component, {
         return {
           card: card
         };
+      },
+      
+      onDragOver: function(e, id) {
+        this.cachedTarget = card.getBestMatch(id);
+        
+        Ext.dd.DragSource.prototype.onDragOver.apply(this, arguments);
+      },
+      
+      /**
+       * Finds the offset of the click event relative to the card and sets this as the offset delta
+       * for the ghost element so that the click point of the card is kept with the mouse pointer
+       */
+      autoOffset: function(x, y) {
+        var cardXY = card.getEl().getXY();
+        
+        var xDelta = x - cardXY[0] + 22;
+        var yDelta = y - cardXY[1];
+        
+        this.setDelta(xDelta, yDelta);
+      },
+      
+      onInitDrag: function(x, y) {
+        var stack = card.location;
+        
+        //if the card is on a stack and is not the top card on that stack,
+        //create a proxy containing this card and all on top of it
+        if (stack && stack.isXType('solitaire-stack') && card != stack.getTopCard()) {
+          var cards = stack.getCardsAbove(card);
+          var clone = Ext.DomHelper.append(Ext.getBody(), {id: Ext.id()}, false);
+          
+          for (var i=0; i < cards.length; i++) {
+            clone.appendChild(cards[i].el.dom.cloneNode(true));
+          };
+
+          this.proxy.update(clone);
+        } else {
+          var clone = this.el.dom.cloneNode(true);
+          clone.id = Ext.id(); 
+          this.proxy.update(clone);
+        }
+        
+        this.onStartDrag(x, y);
+        return true;
+      },
+      
+      onDragEnter: function(e, id) {
+        var target = card.getBestMatch(id);
+        
+        if(this.beforeDragEnter(target, e, id) !== false){
+          if(target.isNotifyTarget){
+            var status = target.notifyEnter(this, e, this.dragData);
+            this.proxy.setStatus(status);
+          }else{
+            this.proxy.setStatus(this.dropAllowed);
+          }
+          
+          if(this.afterDragEnter){
+            this.afterDragEnter(target, e, id);
+          }
+        }
+      },
+      
+      /**
+       * Abstract drag out
+       * @param {Ext.EventObject} e The drag out event
+       */
+      onDragOut: function(e, id) {
+        this.cachedTarget = card.getBestMatch(id);
+        
+        Ext.dd.DragSource.prototype.onDragOut.apply(this, arguments);
+      },
+      
+      /**
+       * Handles logic of identifying drop source and firing appropriate events
+       * @param {Ext.EventObject} e The drop event
+       * @param {Array} id The array of intersecting drop targets identified (using INTERSECT mode)
+       */
+      onDragDrop: function(e, id) {
+        this.cachedTarget = card.getBestMatch(id);
+        
+        Ext.dd.DragSource.prototype.onDragDrop.apply(this, arguments);
       }
     });
   }
