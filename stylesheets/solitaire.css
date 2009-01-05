@@ -1,5 +1,6 @@
 .x-solitaire-window .x-window-body .x-panel-body {
   background-color: #080;
+  padding-top: 10px;
 }
 
 .x-solitaire-card {
@@ -17,7 +18,7 @@
 .x-solitaire-suit-stack {
   height: 100px;
   width: 72px;
-  border: 1px solid red;
+  background: url(images/cards.gif) no-repeat bottom right;
 }
 
 .x-solitaire-suit-stack .x-solitaire-card-under {
@@ -25,7 +26,20 @@
 }
 
 .x-solitaire-stack {
-  height: 300px;
+  width: 72px;
+  margin: 1px auto;
+  min-height: 100px;
+}
+
+.x-solitaire-deck {
+  width: 72px;
+  margin: 1px auto;
+}
+
+.x-solitaire-dealer {
+  width:  72px;
+  height: 100px;
+  margin: 0 auto;
 }
 
 .x-solitaire-deck .x-solitaire-card-under {

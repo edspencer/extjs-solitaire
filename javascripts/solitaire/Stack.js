@@ -107,10 +107,23 @@ Ext.extend(Solitaire.Stack, Ext.Container, {
    * Creates the markup to render this stack
    */
   onRender: function(ct, position) {
-    this.el = Ext.get(ct).createChild({
-      tag: 'div',
-      cls: 'x-solitaire-stack'
+    this.el = ct.createChild({
+      cls: 'x-solitaire-stack-wrapper',
+      children: [
+        {
+          cls:   'x-solitaire-stack',
+          style: 'background: url(images/cards.gif) no-repeat bottom right;'
+        }
+      ]
     });
+    
+    this.stackHolder = this.el.child('.x-solitaire-stack');
+    
+    Solitaire.Stack.superclass.onRender.apply(this, arguments);
+  },
+
+  getLayoutTarget: function(){
+    return this.stackHolder;
   },
   
   /**

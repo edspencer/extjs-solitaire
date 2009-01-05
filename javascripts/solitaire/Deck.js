@@ -10,6 +10,9 @@ Solitaire.Deck = function(config) {
   
   this.claimUndealtCards(config.pack);
   
+  this.dealer = config.dealer;
+  this.dealer.on('click', this.cycleCards, this);
+  
   this.on('afterlayout', this.applyClasses, this);
 };
 
@@ -29,16 +32,34 @@ Ext.extend(Solitaire.Deck, Ext.Container, {
   },
   
   /**
+   * @property numberToDeal
+   * @type Number
+   * The number of cards to deal each time the deck is clicked (usually 1 or 3, defaults to 1)
+   */
+  numberToDeal: 1,
+  
+  /**
    * Renders the Deck
    * @param {Ext.Container} ct The container to render this component to
    */
   onRender: function(ct, position) {
     this.el = Ext.get(ct).createChild({
-      tag: 'div',
-      cls: 'x-solitaire-deck'
+      cls: 'x-solitaire-deck-wrapper',
+      children: [{
+        cls:   'x-solitaire-deck',
+        style: 'background: url(images/cards.gif) no-repeat bottom right;'
+      }]
     });
     
-    this.el.on('click', this.cycleCards, this);
+    this.deckHolder = this.el.child('.x-solitaire-deck');
+    
+    // this.el.on('click', this.cycleCards, this);
+    
+    Solitaire.Deck.superclass.onRender.apply(this, arguments);
+  },
+  
+  getLayoutTarget: function(paramName) {
+    return this.deckHolder;
   },
   
   /**

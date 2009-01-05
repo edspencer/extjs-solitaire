@@ -3,11 +3,12 @@ Ext.ns('Solitaire');
 Solitaire.Game = function() {
   this.createSuitStacks();
   this.createStacks();
-  this.createDeck();
+  this.createDeckAndDealer();
   
   if (!this.win) {
     this.win = new Solitaire.MainWindow({
       deck:       this.deck,
+      dealer:     this.dealer,
       suitStacks: this.suitStacks,
       stacks:     this.stacks,
       game:       this,
@@ -199,8 +200,9 @@ Solitaire.Game.prototype = {
   /**
    * Sets up the Deck
    */
-  createDeck: function() {
-    this.deck = new Solitaire.Deck({pack: this.pack});
+  createDeckAndDealer: function() {
+    this.dealer = new Solitaire.Dealer();
+    this.deck   = new Solitaire.Deck({pack: this.pack, dealer: this.dealer});
   },
   
   /**

@@ -66,11 +66,12 @@ Ext.extend(Solitaire.Card, Ext.Component, {
   /**
    * Moves this card to the specified container
    * @param {Ext.Container} newContainer The container to move the card to
+   * @param {Number} position An optional position to insert the card at (defaults to the top)
    */
-  moveTo: function(newContainer) {
+  moveTo: function(newContainer, position) {
     if (!this.pack) { return false; }
     
-    return this.pack.moveCard(this, newContainer);
+    return this.pack.moveCard(this, newContainer, position);
   },
   
   /**
@@ -126,29 +127,32 @@ Ext.extend(Solitaire.Card, Ext.Component, {
   },
   
   getBestMatch: function(dds) {
-    var winner = null;
-
-    var len = dds.length;
-
-    if (len == 1) {
-        winner = dds[0];
-    } else {
-      for (var i=0; i<len; ++i) {
-        var dd = dds[i];
-                    
-        if (false && dd.cursorIsOver) {
-          winner = dd;
-          break;
-        
-        } else {
-          if (!winner || winner.overlap.getArea() < dd.overlap.getArea()) {
+    //FIXME: NO! Just no.  Not good
+    try {
+      var winner = null;
+  
+      var len = dds.length;
+  
+      if (len == 1) {
+          winner = dds[0];
+      } else {
+        for (var i=0; i<len; ++i) {
+          var dd = dds[i];
+                      
+          if (false && dd.cursorIsOver) {
             winner = dd;
+            break;
+          
+          } else {
+            if (!winner || winner.overlap.getArea() < dd.overlap.getArea()) {
+              winner = dd;
+            }
           }
         }
       }
-    }
-
-    return winner;
+  
+      return winner;
+    } catch(e) {};
   },
   
   /**
@@ -156,6 +160,12 @@ Ext.extend(Solitaire.Card, Ext.Component, {
    */
   initializeDragSource: function() {
     this.el.on('dblclick', function() { this.fireEvent('dblclick', this); }, this);
+    
+    //FIXME: Seriously, we should be reusing these :( Not sure if this even does what I want it to
+    if (this.dragSource) {
+      this.dragSource.destroy();
+      delete this.dragSource;
+    }
     
     //only allow a card to be dragged if it has been revealed
     if (!this.revealed) { return false; }
@@ -189,6 +199,9 @@ Ext.extend(Solitaire.Card, Ext.Component, {
         this.setDelta(xDelta, yDelta);
       },
       
+      /**
+       * Creates the drag proxy
+       */
       onInitDrag: function(x, y) {
         var stack = card.location;
         

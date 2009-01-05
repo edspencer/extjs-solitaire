@@ -73,7 +73,7 @@ Solitaire.Pack = function(config) {
    * Moves a card to a new container.  Adds/removes card from containers appropriately
    * and calls doLayout() on each altered container
    */
-  this.moveCard = function(card, newContainer) {
+  this.moveCard = function(card, newContainer, position) {
     var oldContainer = card.location;
     
     if (this.fireEvent('beforemovecard', this, card, newContainer, oldContainer)) {
@@ -98,7 +98,12 @@ Solitaire.Pack = function(config) {
       };
       
       for (var i=0; i < cardsToMove.length; i++) {
-        newContainer.add(cardsToMove[i]);
+        if (typeof position == "undefined") {
+          //defaults to adding the card to the top
+          newContainer.add(cardsToMove[i]);
+        } else {
+          newContainer.insert(position, cardsToMove[i]);
+        };
         cardsToMove[i].location = newContainer;
         
         this.fireEvent('movecard', this, cardsToMove[i], newContainer, oldContainer);

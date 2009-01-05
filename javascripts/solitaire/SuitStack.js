@@ -58,8 +58,15 @@ Ext.extend(Solitaire.SuitStack, Solitaire.Stack, {
    */
   onRender: function(ct, position) {
     this.el = ct.createChild({
-      tag: 'div',
-      cls: 'x-solitaire-suit-stack'
+      cls: 'x-solitaire-stack-wrapper',
+      children: [
+        {
+          cls: 'x-solitaire-suit-stack x-solitaire-stack',
+          style: 'background: url(images/cards.gif) no-repeat bottom right;'
+        }
+      ]
     });
+    
+    this.stackHolder = this.el.child('.x-solitaire-suit-stack');
   }
 });

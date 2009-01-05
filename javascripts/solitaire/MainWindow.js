@@ -6,28 +6,27 @@
 Solitaire.MainWindow = function(config) {
   var config = config || {};
   
-  this.deal = new Solitaire.Deal({
-    colspan: 2
-  });
-  
-  //add items for the top panel (deck, dealt cards, a gap and then the suit stacks)
-  var tpItems = [
-    this.deal,
-    config.deck
-  ];
-  
-  for (var i=0; i < config.suitStacks.length; i++) {
-    tpItems.push(config.suitStacks[i]);
-  };
-  
   this.topPanel = new Ext.Panel({
     layout: 'column',
     region: 'north',
-    height: 120,
+    height: 130,
+    
     defaults: {
-      columnWidth: (1 / tpItems.length)
+      border: false,
+      layout: 'column'
     },
-    items: tpItems
+    items: [
+      {
+        columnWidth: (3 / 7),
+        items:       [config.dealer, config.deck, {html: ''}],
+        defaults:    {columnWidth: (1 / 3), border: false}
+      },
+      {
+        columnWidth: (4 / 7),
+        items:       config.suitStacks,
+        defaults:    {columnWidth: (1 / 4)}
+      }
+    ]
   });
   
   this.decksPanel = new Ext.Panel({
