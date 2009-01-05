@@ -9,14 +9,19 @@
   </head>
   <body>
     <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-400.js"></script>
-    <script type="text/javascript" src="javascripts/solitaire/Game.js"></script>
-    <script type="text/javascript" src="javascripts/solitaire/MainWindow.js"></script>
-    <script type="text/javascript" src="javascripts/solitaire/Deck.js"></script>
-    <script type="text/javascript" src="javascripts/solitaire/Dealer.js"></script>
-    <script type="text/javascript" src="javascripts/solitaire/Card.js"></script>
-    <script type="text/javascript" src="javascripts/solitaire/Pack.js"></script>
-    <script type="text/javascript" src="javascripts/solitaire/Stack.js"></script>
-    <script type="text/javascript" src="javascripts/solitaire/SuitStack.js"></script>
-    <script type="text/javascript" src="javascripts/application.js"></script>
+    <script type="text/javascript" src="javascripts/solitaire-min.js"></script>
+    <script type="text/javascript">
+      Ext.dd.DragDropMgr.mode = Ext.dd.DragDropMgr.INTERSECT;
+      Ext.onReady(function() { new Solitaire.Game().launch(); });
+    </script>
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker("UA-4113660-2");
+        pageTracker._trackPageview();
+      } catch(err) {}</script>
   </body>
 </html>
