@@ -53,8 +53,6 @@ Ext.extend(Solitaire.Deck, Ext.Container, {
     
     this.deckHolder = this.el.child('.x-solitaire-deck');
     
-    // this.el.on('click', this.cycleCards, this);
-    
     Solitaire.Deck.superclass.onRender.apply(this, arguments);
   },
   

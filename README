@@ -2,6 +2,12 @@ Solitaire in ExtJS
 
 Simple port of the windows Solitaire game for Ext JS.  Runs locally, no need for server except to serve the files.
 
+About:
+* 35Kb of JavaScript, 15Kb minified.
+* < 1300 lines including generous comments, JSDOC and whitespace
+* Written for ExtJS 2.2.  Custom build at http://extjs.cachefly.net/builds/ext-cdn-400.js
+* Roughly 25 hours work, mainly spent trying to find information about D&D in ExtJS.
+
 To do:
 
 * Save game state to cookie so as not to lose between refreshes
@@ -14,6 +20,7 @@ Bugs:
 * initialiseDragSource called after each render of each card, is probably leaking memory (see FIXME at conditional at beginning of that method)
 * There seems to be an event firing leak when double clicking cards.  Before they are moved they fire the event several times.
 * Currently using a hack in Card.getBestMatch as it will occasionally throw an error (winner.overlap is null).  Should be able to remove the try/catch block here
+* Can't currently double-click a card in the Deck, only on top of a Stack
 
 Changelog:
 
