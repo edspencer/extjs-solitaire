@@ -326,7 +326,7 @@ Solitaire.MainWindow = function(config) {
  
   Ext.applyIf(config, {
     title:     'Solitaire',
-    height:    600,
+    height:    680,
     width:     900,
     layout:    'border',
     cls:       'x-solitaire-window',
@@ -385,7 +385,7 @@ Solitaire.MainWindow = function(config) {
             {
               text:    'View blog post',
               handler: function() {
-                window.open('');
+                window.open('http://edspencer.net/2009/01/extjs-solitaire.html');
               }
             },
             {
